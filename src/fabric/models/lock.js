@@ -15,10 +15,15 @@ function transferOwnership(transferOwnership) {
   	}
   	transferOwnership.lock.userKey = transferOwnership.newOwner;
   	transferOwnership.lock.enable = true;
+    transferOwnership.lock.status = true;
   }
   else {
     //return the lock ownership to renter
     transferOwnership.lock.enable = false;
+    transferOwnership.lock.status = true;
+  }
+  if (transferOwnership.lock.unlockTimes) {
+    transferOwnership.lock.unlockTimes = 0;
   }
   return getParticipantRegistry('org.acme.lock.Lock')
   		.then(function (lockRegistry) {
@@ -33,7 +38,7 @@ function transferOwnership(transferOwnership) {
  */
 function lockOrder(lockOrder) {
   console.log('connecting lock...');
-  if (lockOrder.newOwner != lockOrder.lock.userKey || lockOrder.lock.enable == false) {
+  if (lockOrder.newOwner.tenantId != lockOrder.lock.userKey.tenantId || lockOrder.lock.enable == false) {
     throw new Error("admission denied");
   }
   //handle LOCK or UNLOCK command
@@ -42,6 +47,9 @@ function lockOrder(lockOrder) {
   }
   else {
     lockOrder.lock.status = false;
+    if (lockOrder.lock.unlockTimes >= 0) {
+      lockOrder.lock.unlockTimes += 1;
+    }
   }
   
   return getParticipantRegistry('org.acme.lock.Lock')

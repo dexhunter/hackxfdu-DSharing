@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # coding=utf-8
 
 import os
@@ -6,12 +5,13 @@ import json
 import traceback
 from flask import Flask, request
 import requests
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="")
 
-@app.route("/startRent", methods=['GET','POST'])
+
+@app.route("/startRent", methods=['GET', 'POST'])
 def start_rent():
     res = {}
-    
+    res['errorMsg'] = ""
     try:
         # generate post body
         log = ""
@@ -21,7 +21,7 @@ def start_rent():
         tenant = param['tenant']
         money = param['money']
         payload = {
-            'rentHouseId': ''.join(map(lambda xx:(hex(ord(xx))[2:]),os.urandom(16))),
+            'rentHouseId': ''.join(map(lambda xx: (hex(ord(xx))[2:]), os.urandom(16))),
             'payment': money,
             'house': houseId,
             'renter': renter,
@@ -34,13 +34,15 @@ def start_rent():
         log += "payment: " + str(money) + "\n"
         log += "strat to add one transaction=========>\n"
 
-        rentReq = requests.post("http://168.1.144.159:31090/api/RentHouse", data=payload)
+        rentReq = requests.post(
+            "http://168.1.144.159:31090/api/RentHouse", data=payload)
         print "Rent house return: " + rentReq.text
         rentResult = json.loads(rentReq.text)
         if rentResult.has_key('error'):
-            log += str(rentResult['error']['message'])+"\n"
+            log += str(rentResult['error']['message']) + "\n"
             log += "!!!!!!!!!!!   Rent transaction operation failed   !!!!!!!!!!!\n"
             res['success'] = 0
+            res['errorMsg'] += str(rentResult['error']['message']) + "\n"
         else:
             log += "Rent transaction operation success\n"
 
@@ -54,28 +56,31 @@ def start_rent():
         log += "the house's owner change: " + renter + " --> " + tenant + "\n"
         log += "strat to add one transaction=========>\n"
         print log
-        transReq = requests.post("http://168.1.144.159:31090/api/TransferOwnership", data=transFormPayLoad)
+        transReq = requests.post(
+            "http://168.1.144.159:31090/api/TransferOwnership", data=transFormPayLoad)
         print "TransForm ownership return: " + transReq.text
         transformResult = json.loads(transReq.text)
         if transformResult.has_key('error'):
-            log += str(transformResult['error']['message'])+"\n"
+            log += str(transformResult['error']['message']) + "\n"
             log += "!!!!!!!!!!!   TransForm transaction operation failed   !!!!!!!!!!!\n"
             res['success'] = 0
+            res['errorMsg'] = str(transformResult['error']['message'])
         else:
             log += "TransForm transaction operation success\n"
             res['success'] = 1
+            res['errorMsg'] = ""
 
-        res['errorMsg'] = ""
         res['Log'] = log
         print log
 
     except Exception, e:
         print(traceback.format_exc())
         print "Rent Error!!!"
-    
-    return json.dumps(res) 
 
-@app.route("/openLock", methods=['GET','POST'])
+    return json.dumps(res)
+
+
+@app.route("/openLock", methods=['GET', 'POST'])
 def open_lock():
     res = {}
     try:
@@ -94,32 +99,38 @@ def open_lock():
         log += "tenant: " + tenant + "\n"
         log += "houseId: " + houseId + "\n"
         log += "strat to add one transaction=========>\n"
-        r = requests.post("http://168.1.144.159:31090/api/LockOrder", data=payLoad)
+        r = requests.post(
+            "http://168.1.144.159:31090/api/LockOrder", data=payLoad)
         print "open lock return: " + r.text
         result = json.loads(r.text)
         if result.has_key('error'):
-            log += str(result['error']['message'])+"\n"
+            log += str(result['error']['message']) + "\n"
             log += "!!!!!!!!!!!   Lock transaction operation failed   !!!!!!!!!!!\n"
+            res['success'] = 0
+            res['errorMsg'] = str(result['error']['message'])
         else:
             log += "Lock transaction operation success\n"
+            res['success'] = 1
+            res['errorMsg'] = ""
     except Exception:
         print(traceback.format_exc())
         print "open lock Error!!!"
         pass
     # if the first time, start timing
-    res['success'] = 1
-    res['errorMsg'] = ""
-    res['Log'] = result
 
-    return json.dumps(res) 
+    res['Log'] = log
 
-@app.route("/closeLock", methods='POST')
+    return json.dumps(res)
+
+
+@app.route("/closeLock", methods=['GET', 'POST'])
 def close_lock():
     r = requests.post("")
     res = {'message': r.text}
     return json.dumps(res)
 
-@app.route("/search", methods='GET')
+
+@app.route("/search", methods=['GET', 'POST'])
 def search_house():
     param = request.args
     pass

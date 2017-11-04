@@ -2,7 +2,7 @@
 
 rule myUserRule {
     description: "limit specified user's admission"
-    participant(p): "org.acme.roles.Tenant#Peter"
+    participant(p): "org.acme.roles.Tenant"
     operation: ALL
     resource(r): "org.acme.roles.Tenant"
     condition: (p.tenantId!=r.tenantId)

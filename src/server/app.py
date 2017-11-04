@@ -2,6 +2,7 @@
 
 import os
 import json
+import random
 import traceback
 from flask import Flask, request
 import requests
@@ -132,8 +133,12 @@ def close_lock():
 
 @app.route("/search", methods=['GET', 'POST'])
 def search_house():
-    param = request.args
-    pass
+    res = {
+        "success": 1,
+        "errorMsg": "",
+        "houseNum": random.randint(1, 10) 
+    }
+    return json.dumps(res)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -48,3 +48,5 @@ out
 dist
 
 node_modules
+
+.vscode

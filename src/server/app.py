@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route("/startRent", methods=['GET','POST'])
 def start_rent():
     res = {}
-    
+
     try:
         # generate post body
         log = ""
@@ -72,8 +72,8 @@ def start_rent():
     except Exception, e:
         print(traceback.format_exc())
         print "Rent Error!!!"
-    
-    return json.dumps(res) 
+
+    return json.dumps(res)
 
 @app.route("/openLock", methods=['GET','POST'])
 def open_lock():
@@ -111,15 +111,15 @@ def open_lock():
     res['errorMsg'] = ""
     res['Log'] = result
 
-    return json.dumps(res) 
+    return json.dumps(res)
 
-@app.route("/closeLock", methods='POST')
+@app.route("/closeLock", methods=['POST'])
 def close_lock():
     r = requests.post("")
     res = {'message': r.text}
     return json.dumps(res)
 
-@app.route("/search", methods='GET')
+@app.route("/search", methods=['GET'])
 def search_house():
     param = request.args
     pass

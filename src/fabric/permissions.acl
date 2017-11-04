@@ -1,10 +1,19 @@
 
 
-rule NetworkAdminUser {
-    description: "Grant business network administrators full access to user resources"
-    participant: "ANY"
+rule myUserRule {
+    description: "limit specified user's admission"
+    participant(p): "org.acme.roles.Tenant#Peter"
     operation: ALL
-    resource: "**"
+    resource(r): "org.acme.roles.Tenant"
+    condition: (p.tenantId!=r.tenantId)
+    action: DENY
+}
+
+rule Default {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.acme.roles.*"
+    operation: ALL
+    resource: "org.acme.**"
     action: ALLOW
 }
 

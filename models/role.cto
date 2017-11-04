@@ -1,0 +1,13 @@
+namespace org.acme.roles
+import composer.base.Person
+
+participant Tenant identified by tenantId extends Person {
+  o String tenantId
+  o Double balance
+}
+
+participant Renter identified by renterId extends Person {
+  o String renterId
+  o Double balance
+}
+

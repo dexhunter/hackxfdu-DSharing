@@ -1,0 +1,39 @@
+/**
+ * New model file
+ * order as assert, lock as participant, using transactions to manipulate the lock
+ */
+
+namespace org.acme.lock
+import org.acme.roles.*
+
+enum oneLockOrder {
+  o UNLOCK
+  o LOCK
+}
+
+participant Lock identified by lockId {
+  o String lockId
+  --> Tenant userKey
+  --> Renter masterKey
+  o Boolean enable   //whether the lock is in tenant's hand
+  o Boolean status   //whether the lock is locked
+}
+
+asset Order identified by orderId {
+  o String orderId
+  o oneLockOrder oneOrder
+}
+  
+transaction TransferOwnership {
+  --> Renter oldOwner
+  --> Tenant newOwner
+  --> Lock lock
+  o Boolean flag
+}
+
+//send a lock order
+transaction LockOrder {
+  --> Tenant newOwner
+  --> Lock lock 
+  --> Order order
+}

@@ -1,0 +1,20 @@
+/**
+ * My commodity trading network
+  */
+  namespace composer.base
+
+  abstract participant Person {
+        o String firstName optional
+          o String lastName optional
+            o String descriptions optional
+  }
+
+  concept Address {
+        o String city
+          o String street
+            o String detail
+  }
+
+  abstract asset item {
+        o String descriptions
+  }

@@ -73,7 +73,8 @@ class Setup(object):
             print(data)
             print(data['details'])
             print(data['details']['address'])
-            page = requests.post(url, headers = self.headers, data=data )
+            headers = {'content-type': 'application/json'}
+            page = requests.post(url, data=json.dumps(data), headers=headers)
             print(str(i)+":  "+page.text+'\n')
         print("generating houses completed")
 
@@ -81,5 +82,5 @@ class Setup(object):
 
 
 test = Setup()
-#test.generate_house()
-test.generate_renter()
+test.generate_house()
+#test.generate_renter()

@@ -1,0 +1,101 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anonymix | Welcome</title>
+  <!--<link rel="stylesheet" href="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.css">-->
+  <!-- Compressed CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+
+<div data-sticky-container>
+  <div class="title-bar" data-sticky data-options="marginTop:0;">
+    <div class="title-bar-left">
+      <a href="/index.html">
+        <img id="image" class="logo" src="/static/anonymix_logo_white.png">
+      </a>
+    </div>
+    <div class="title-bar-right">
+      <ul class="menu sticky-shrinknav-menu align-right">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/project.html">Project</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="grid-x grid-padding-x width-limit">
+  <div class="medium-6 large-4 cell">
+    <h2>Put a Description</h2>
+    <p>Vivamus luctus urna sed urna ultricies ac tempor dui sagittis. In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna diam porttitor mauris, quis sollicitudin sapien justo in libero. Vestibulum mollis mauris enim. Morbi euismod magna ac lorem rutrum elementum. Donec viverra auctor.</p>
+  </div>
+  <div class="medium-6 large-8 cell">
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  </div>
+
+</div>
+
+<hr>
+
+<div class="grid-x grid-padding-x width-limit">
+  <div class="small-4 cell">
+    <h3>Photoshop</h3>
+    <p>Vivamus luctus urna sed urna ultricies ac tempor dui sagittis. In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna.</p>
+  </div>
+  <div class="small-4 cell">
+    <h3>Javascript</h3>
+    <p>Vivamus luctus urna sed urna ultricies ac tempor dui sagittis. In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna.</p>
+  </div>
+  <div class="small-4 cell">
+    <h3>Marketing</h3>
+    <p>Vivamus luctus urna sed urna ultricies ac tempor dui sagittis. In condimentum facilisis porta. Sed nec diam eu diam mattis viverra. Nulla fringilla, orci ac euismod semper, magna.</p>
+  </div>
+</div>
+
+<hr>
+
+<div class="grid-x align-justify width-limit">
+  <ul class="vertical medium-horizontal menu expanded text-center display-block">
+    <li><a href="#"><div class="stat">28</div><span>Websites</span></a></li>
+    <li><a href="#"><div class="stat">43</div><span>Apps</span></a></li>
+    <li><a href="#"><div class="stat">95</div><span>Ads</span></a></li>
+    <li><a href="#"><div class="stat">59</div><span>Cakes</span></a></li>
+    <li><a href="#"><div class="stat">18</div><span>Logos</span></a></li>
+  </ul>
+</div>
+
+<hr>
+<footer class="foot-bar">
+  <div class="grid-x grid-padding-x align-center-middle" style="height: 5rem;">
+    <div class="cell text-center">
+      Copyright 2017 Cornell University Soumya Lab Group
+    </div>
+  </div>
+</footer>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Compressed JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js"></script>
+
+<!--<script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>-->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<!--<script src="static/js/app.js"></script>-->
+<script>
+    $(document).foundation();
+
+    $('.title-bar').on('sticky.zf.stuckto:top', function(){
+        $(this).addClass('shrink');
+    }).on('sticky.zf.unstuckfrom:top', function(){
+        $(this).removeClass('shrink');
+    })
+</script>
+</body>
+</html>
+

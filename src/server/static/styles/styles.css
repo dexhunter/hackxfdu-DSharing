@@ -1,0 +1,3 @@
+/* All of YOUR styles go here. They take effect after those in the normalize CSS file, but will overwrite anything that conflicts. */
+.pool {background-color: #9ed7db; margin: 2em auto; width: 35em; border: 5px solid #ccc; padding: 0.8em; text-align: center;}
+.pools {display: inline; list-style-type: none;}

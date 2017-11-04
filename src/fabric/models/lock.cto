@@ -17,6 +17,7 @@ participant Lock identified by lockId {
   --> Renter masterKey
   o Boolean enable   //whether the lock is in tenant's hand
   o Boolean status   //whether the lock is locked
+  o Integer unlockTimes optional   //0 when lock are handed to new users
 }
 
 asset Order identified by orderId {

@@ -6,7 +6,17 @@ import random
 import traceback
 from flask import Flask, request
 import requests
+from pyduino import *
+
+
 app = Flask(__name__, static_url_path="")
+
+
+# arduino control
+a = Arduino(serial_port='/dev/ttyUSB0')
+LED_PIN = 13
+a.set_pin_mode(LED_PIN, '0')
+print('Arduino initialized')
 
 
 @app.route("/startRent", methods=['GET', 'POST'])
@@ -115,6 +125,7 @@ def open_lock():
             log += "Lock transaction operation success\n"
             res['success'] = 1
             res['errorMsg'] = ""
+            a.digital_write(LED_PIN, 1)
     except Exception:
         print(traceback.format_exc())
         print "open lock Error!!!"
@@ -130,6 +141,7 @@ def open_lock():
 def close_lock():
     r = requests.post("")
     res = {'message': r.text}
+    a.digital_write(LED_PIN, 0)
     return json.dumps(res)
 
 

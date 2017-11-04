@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DSharing | Welcome</title>
     <!-- Compressed CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-    <link rel="stylesheet" href="../static/css/app.css">
+    <link rel="stylesheet" href="./static/css/app.css">
 </head>
   <body>
 
@@ -20,7 +20,7 @@
           </div>
           <div class="title-bar-right">
               <ul class="menu sticky-shrinknav-menu align-right">
-                  <li><a href="/index.html">Home</a></li>
+                  <li><a href="index.html">Home</a></li>
                   <li><a href="/about.html">About</a></li>
                   <li><a href="product-page.html">Project</a></li>
                   <li><a href="/contact.html">Contact</a></li>
@@ -40,13 +40,13 @@
               <!--</div>-->
           </div>
           <img class="hero-search-filter-logo" src="https://placehold.it/1000x80" alt="" />
-          <form class="hero-search-filter-form" action="">
+          <form id="myform" class="hero-search-filter-form" action="index.html" method="post">
               <label for="findtext">附近</label>
-              <input id="findtext" class="hero-search-filter-form-find" type="text" />
+              <input id="findtext" name="no" class="hero-search-filter-form-find" type="text" />
               <div class="divider">&nbsp;</div>
               <label for="findlocate">租金</label>
-              <input id="findlocate" class="hero-search-filter-form-near" type="text" />
-              <button class="button"><i class="fa fa-search"></i></button>
+              <input id="findlocate" name="yes" class="hero-search-filter-form-near" type="text" />
+              <button id="search" class="button" ><i class="fa fa-search"></i></button>
           </form>
           <ul class="hero-search-filter-menu menu align-center">
               <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i> House</a></li>
@@ -140,9 +140,29 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js"></script>
 
   <!--<script src="static/js/app.js"></script>-->
+
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.7.1/echarts.js"></script>
   <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
   <script type="text/javascript">
+      $("#search").click(function(){
+          a = "action=search"
+          alert(a)
+          $.ajax({
+              type: 'get',
+              url: '/search',
+//              data: $("#myform").serialize(),
+              data: a,
+              cache: false,
+              dataType: 'json',
+              error: function (request) {
+                  alert("Connection error");
+              },
+              success: function (data) {
+                  alert(data);
+              }
+              });
+      });
+
       $(document).foundation();
 
       $('.title-bar').on('sticky.zf.stuckto:top', function(){
@@ -325,8 +345,7 @@
       };;
       if (option && typeof option === "object") {
           myChart_map.setOption(option, true);
-      }
-
+      };
   </script>
   </body>
 </html>

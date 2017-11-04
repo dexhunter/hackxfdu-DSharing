@@ -16,6 +16,8 @@ def start_rent():
     try:
         # generate post body
         log = ""
+        print "----"
+        print request.get_json()
         param = request.get_json()
         houseId = param['houseId']
         renter = param['renter']
@@ -136,7 +138,7 @@ def search_house():
     res = {
         "success": 1,
         "errorMsg": "",
-        "houseNum": random.randint(1, 10) 
+        "houseNum": random.randint(1, 10)
     }
     return json.dumps(res)
 

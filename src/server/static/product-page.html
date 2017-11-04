@@ -100,8 +100,8 @@
           </div>
         </div>
 
-        <a href="#" class="button large expanded">预订</a>
-        <a href="#" class="button large expanded">开锁</a>
+        <a id="rent" class="button large expanded">预订</a>
+        <a id="unlock" class="button large expanded">开锁</a>
 
         <div class="small secondary expanded button-group">
             <a class="button">Facebook</a>
@@ -225,6 +225,57 @@
     <script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
     <script>
       $(document).foundation();
+      $("#rent").click(function(){
+          a = {
+              "action": "rent",
+              "money": 1,
+              "houseId": "house108",
+              "renter": "renter108",
+              "tenant": "tenant108"
+          }
+          
+          alert(a)
+          $.ajax({
+              type: 'post',
+              url: '/startRent',
+//              data: $("#myform").serialize(),
+              data: JSON.stringify(a),
+              cache: false,
+              dataType: 'json',
+              contentType: 'application/json',
+              error: function (request) {
+                  alert("Connection error");
+              },
+              success: function (data) {
+                  alert(JSON.stringify(data));
+              }
+          });
+      });
+      $("#unlock").click(function(){
+          a = {
+              "action": "open",
+              "houseId": "house108",
+              "renter": "renter108",
+              "tenant": "tenant108"
+          }
+
+          alert(JSON.stringify(a));
+          $.ajax({
+              type: 'post',
+              url: '/openLock',
+//              data: $("#myform").serialize(),
+              data: JSON.stringify(a),
+              cache: false,
+              dataType: 'json',
+              contentType: 'application/json',
+              error: function (request) {
+                  alert("Connection error");
+              },
+              success: function (data) {
+                  alert(JSON.stringify(data));
+              }
+          });
+      });
     </script>
   </body>
 </html>

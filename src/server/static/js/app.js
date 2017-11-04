@@ -9,6 +9,10 @@
 //     });
 // });
 
+function search(){
+    alert("sssss");
+};
+
 $(document).foundation();
 
 $('.title-bar').on('sticky.zf.stuckto:top', function(){

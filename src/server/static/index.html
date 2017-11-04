@@ -1,0 +1,334 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DSharing | Welcome</title>
+    <!-- Compressed CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+  <body>
+
+  <div data-sticky-container>
+      <div class="title-bar" data-sticky data-options="marginTop:0;">
+          <div class="title-bar-left">
+              <a href="/index.html">
+                  <img id="image" class="logo" src="/static/DSharing_logo_white.png">
+              </a>
+          </div>
+          <div class="title-bar-right">
+              <ul class="menu sticky-shrinknav-menu align-right">
+                  <li><a href="index.html">Home</a></li>
+                  <li><a href="/about.html">About</a></li>
+                  <li><a href="product-page.html">Project</a></li>
+                  <li><a href="/contact.html">Contact</a></li>
+              </ul>
+          </div>
+      </div>
+  </div>
+
+  <header class="hero-search-filter">
+      <div class="hero-search-filter-content">
+          <div class="grid-y text-center">
+              <h1>DSharing</h1>
+              <p class="lead">xxx - 添加一些描述</p>
+              <!--<div>-->
+              <!--<a href="/about.html" class="button large alert">Learn More</a>-->
+              <!--<a href="#" class="button large hollow alert">Download</a>-->
+              <!--</div>-->
+          </div>
+          <img class="hero-search-filter-logo" src="https://placehold.it/1000x80" alt="" />
+          <form id="myform" class="hero-search-filter-form"  action="/search" method="get">
+              <label for="findtext">附近</label>
+              <input id="findtext" name="no" class="hero-search-filter-form-find" type="text" />
+              <div class="divider">&nbsp;</div>
+              <label for="findlocate">租金</label>
+              <input id="findlocate" name="yes" class="hero-search-filter-form-near" type="text" />
+              <button id="search" class="button" ><i class="fa fa-search"></i></button>
+          </form>
+          <ul class="hero-search-filter-menu menu align-center">
+              <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i> House</a></li>
+              <li><a href="#"><i class="fa fa-glass" aria-hidden="true"></i> Car</a></li>
+              <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Home Services</a></li>
+              <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i> Delivery</a></li>
+          </ul>
+      </div>
+  </header>
+
+    <div class="grid-x grid-padding-x width-limit">
+        <div class="medium-6 large-4 cell">
+            <h2>Anonymous, Performant Coin Mixing.</h2>
+            <p>xxx - 添加一些描述</p>
+        </div>
+        <div class="medium-6 large-8 cell">
+            <!--<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>-->
+            <div id="container" style="height: 450px; margin: 0 auto"></div>
+        </div>
+
+    </div>
+  <hr>
+
+  <div class="grid-x align-center width-limit">
+      <ul class="vertical medium-horizontal menu expanded align-center text-center display-block">
+          <li><a href="#"><div class="stat">{{height}}</div><span>Blockchain Height</span></a></li>
+          <li><a href="#"><div class="stat">3</div><span>Servers</span></a></li>
+          <li><a href="#"><div class="stat">95</div><span>Downloads</span></a></li>
+      </ul>
+  </div>
+
+    <hr>
+
+  <div class="grid-x align-spaced width-limit">
+      <div class="cell text-center">
+          <h2>IPs and Pool Size</h2>
+          <p>IP - The IP address of the server.</p>
+          <p>Pool size - The amount of clients that have connected to that server. Will also indicate if a server is down.</p>
+      </div>
+    {% for pool in pools %}
+        <div class="dashboard-number-card positive">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h5 class="dashboard-number-value">{{pool[0][0]}}</h5>
+                </div>
+                <div class="panel-body">
+                    <p class="dashboard-number-area">
+                    {% if pool[1] != None %}
+                    {{pool[1]}} Joined
+                    {% else %}
+                    Server is not up
+                    {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+  </div>
+
+  <div id="container_map" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <hr>
+
+    <div class="grid-x grid-padding-x width-limit">
+      <div class="small-4 cell">
+        <h3>Full Stack Anonymity</h3>
+        <p>Network layer adversaries will have exactly the same amount of information as the blockchain.</p>
+      </div>
+      <div class="small-4 cell">
+        <h3>Efficient</h3>
+        <p>Route traffic through our rendezvous servers for faster communication-- without losing security!</p>
+      </div>
+      <div class="small-4 cell">
+        <h3>Agnostic</h3>
+        <p>Easy to incorporate anonymity enhancements to Bitcoin as they come out.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <footer class="foot-bar">
+        <div class="grid-x grid-padding-x align-center-middle" style="height: 5rem;">
+            <div class="cell text-center">
+                Copyright 2017 Cornell University Soumya Lab Group
+            </div>
+        </div>
+    </footer>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+  <!-- Compressed JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js"></script>
+
+  <!--<script src="static/js/app.js"></script>-->
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.7.1/echarts.js"></script>
+  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+  <script type="text/javascript">
+
+
+      $(document).foundation();
+
+      $('.title-bar').on('sticky.zf.stuckto:top', function(){
+          $(this).addClass('shrink');
+      }).on('sticky.zf.unstuckfrom:top', function(){
+          $(this).removeClass('shrink');
+      })
+
+      var dom = document.getElementById("container");
+      var myChart = echarts.init(dom);
+      var app = {};
+      option = null;
+      function randomData() {
+          now = new Date(+now + oneDay);
+          value = value + Math.random() * 21 - 10;
+          return {
+              name: now.toString(),
+              value: [
+                  [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+                  Math.round(value)
+              ]
+          }
+      }
+
+      var data = [];
+      var now = +new Date(1997, 9, 3);
+      var oneDay = 24 * 3600 * 1000;
+      var value = Math.random() * 1000;
+      for (var i = 0; i < 1000; i++) {
+          data.push(randomData());
+      }
+
+      option = {
+          tooltip: {
+              trigger: 'axis',
+              formatter: function (params) {
+                  params = params[0];
+                  var date = new Date(params.name);
+                  return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+              },
+              axisPointer: {
+                  animation: false
+              }
+          },
+          xAxis: {
+              type: 'time',
+              splitLine: {
+                  show: false,
+                  color: 'rgba(255, 255, 255, 0.3)'
+              }
+          },
+          yAxis: {
+              type: 'value',
+              boundaryGap: [0, '100%'],
+              splitLine: {
+                  show: false
+              }
+          },
+          series: [{
+              name: 'Blockchain Height',
+              type: 'line',
+              showSymbol: false,
+              hoverAnimation: false,
+              data: data
+          }]
+      };
+
+      setInterval(function () {
+
+          for (var i = 0; i < 5; i++) {
+              data.shift();
+              data.push(randomData());
+          }
+
+          myChart.setOption({
+              series: [{
+                  data: data
+              }]
+          });
+      }, 1000);
+      if (option && typeof option === "object") {
+          myChart.setOption(option, true);
+      }
+
+
+
+
+      var dom_map = document.getElementById("container_map");
+      var myChart_map = echarts.init(dom_map);
+      var app_map = {};
+      option = null;
+      var data_map = [
+          {name: '128.84.19.69', value: 123},
+          {name: '128.84.19.70', value: 123},
+          {name: '128.84.19.71', value: 323}
+      ];
+      var geoCoordMap = {
+          '128.84.19.69':[76.4735, 42.4534],
+          '128.84.19.70':[73.4735, 47.4534],
+          '128.84.19.71':[79.4735, 40.4534]
+      };
+
+      var convertData = function (data) {
+          var res = [];
+          for (var i = 0; i < data.length; i++) {
+              var geoCoord = geoCoordMap[data[i].name];
+              if (geoCoord) {
+                  res.push({
+                      name: data[i].name,
+                      value: geoCoord.concat(data[i].value)
+                  });
+              }
+          }
+          return res;
+      };
+
+      option = {
+          backgroundColor: '#404a59',
+          tooltip : {
+              trigger: 'item'
+          },
+          legend: {
+              orient: 'vertical',
+              y: 'bottom',
+              x:'right',
+              data:['pm2.5'],
+              textStyle: {
+                  color: '#fff'
+              }
+          },
+          geo: {
+              map: 'world',
+              label: {
+                  emphasis: {
+                      show: false
+                  }
+              },
+              roam: true,
+              itemStyle: {
+                  normal: {
+                      areaColor: '#323c48',
+                      borderColor: '#111'
+                  },
+                  emphasis: {
+                      areaColor: '#2a333d'
+                  }
+              }
+          },
+          series : [
+              {
+                  name: 'Top 5',
+                  type: 'effectScatter',
+                  coordinateSystem: 'geo',
+                  data: convertData(data_map),
+                  symbolSize: function (val) {
+                      return val[2] / 10;
+                  },
+                  showEffectOn: 'render',
+                  rippleEffect: {
+                      brushType: 'stroke'
+                  },
+                  hoverAnimation: true,
+                  label: {
+                      normal: {
+                          formatter: '{b}',
+                          position: 'right',
+                          show: true
+                      }
+                  },
+                  itemStyle: {
+                      normal: {
+                          color: '#d31b0e',
+                          shadowBlur: 10,
+                          shadowColor: '#333'
+                      }
+                  },
+                  zlevel: 1
+              }
+          ]
+      };;
+      if (option && typeof option === "object") {
+          myChart_map.setOption(option, true);
+      };
+  </script>
+  </body>
+</html>

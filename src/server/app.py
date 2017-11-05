@@ -93,8 +93,8 @@ def start_rent():
     return json.dumps(res)
 
 
-@app.route("/openLock", methods=['GET', 'POST'])
-def open_lock():
+@app.route("/Lock", methods=['GET', 'POST'])
+def lock():
     res = {}
     try:
         log = ""
@@ -102,11 +102,19 @@ def open_lock():
         houseId = param['houseId']
         renter = param['renter']
         tenant = param['tenant']
-        payLoad = {
-            'newOwner': tenant,
-            'lock': houseId,
-            'order': 'lock'
-        }
+        unlock = param.get('unlock', False) #bool, true to unlock, false to lock
+        if unlock:
+            payLoad = {
+                'newOwner': tenant,
+                'lock': houseId,
+                'order': 'unlock'
+            }
+        else:
+            payLoad = {
+                'newOwner': tenant,
+                'lock': houseId,
+                'order': 'lock'
+            }
         log += "=========now start lock house========\n"
         log += "renter: " + renter + "\n"
         log += "tenant: " + tenant + "\n"
@@ -114,7 +122,7 @@ def open_lock():
         log += "strat to add one transaction=========>\n"
         r = requests.post(
             "http://168.1.144.159:31090/api/LockOrder", data=payLoad)
-        print "open lock return: " + r.text
+        print "lock return: " + r.text
         result = json.loads(r.text)
         if result.has_key('error'):
             log += str(result['error']['message']) + "\n"
@@ -122,26 +130,22 @@ def open_lock():
             res['success'] = 0
             res['errorMsg'] = str(result['error']['message'])
         else:
-            log += "Lock transaction operation success\n"
+            if unlock:
+                log += "Unlock transaction operation success\n"
+                a.digital_write(LED_PIN, 0)
+            else:
+                log += "Lock transaction operation success\n"
+                a.digital_write(LED_PIN, 1)
             res['success'] = 1
             res['errorMsg'] = ""
-            a.digital_write(LED_PIN, 1)
     except Exception:
         print(traceback.format_exc())
-        print "open lock Error!!!"
+        print "lock Error!!!"
         pass
     # if the first time, start timing
 
     res['Log'] = log
 
-    return json.dumps(res)
-
-
-@app.route("/closeLock", methods=['GET', 'POST'])
-def close_lock():
-    r = requests.post("")
-    res = {'message': r.text}
-    a.digital_write(LED_PIN, 0)
     return json.dumps(res)
 
 

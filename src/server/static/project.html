@@ -115,11 +115,10 @@
 
       $("#rent").click(function(){
           a = {
-              "action": "rent",
               "money": 1,
-              "houseId": "house108",
-              "renter": "renter108",
-              "tenant": "tenant108"
+              "houseId": "house2",
+              "renter": "renter2",
+              "tenant": "tenant1"
           }
           
           alert(a)
@@ -144,16 +143,15 @@
       });
       $("#unlock").click(function(){
           a = {
-              "action": "open",
-              "houseId": "house108",
-              "renter": "renter108",
-              "tenant": "tenant108"
+              "houseId": "house2",
+              "renter": "renter2",
+              "tenant": "tenant1"
           }
 
           alert(JSON.stringify(a));
           $.ajax({
               type: 'post',
-              url: '/openLock',
+              url: '/Unlock',
 //              data: $("#myform").serialize(),
               data: JSON.stringify(a),
               cache: false,

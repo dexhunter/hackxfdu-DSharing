@@ -154,7 +154,6 @@
               "tenant": "tenant" + houseId
           }
 
-          alert(JSON.stringify(a));
           $.ajax({
               type: 'post',
               url: '/Unlock',
@@ -167,7 +166,11 @@
                   alert("Connection error");
               },
               success: function (data) {
-                  alert(JSON.stringify(data));
+                var LogString = data["Log"];
+                var LogVec = LogString.split("\n");
+                for (logx in LogVec) {
+                    $("#log-terminal").append(LogVec[logx] + "<br \>");
+                  }
               }
           });
       });

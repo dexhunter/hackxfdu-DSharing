@@ -76,10 +76,10 @@
 
         <div class="row">
           <div class="small-3 columns">
-            <label for="middle-label" class="middle light-label">租客人数</label>
+            <label for="middle-label" class="middle light-label">房屋编号</label>
           </div>
           <div class="small-9 columns">
-            <input type="number" id="middle-label" placeholder="1">
+            <input type="text" id="middle-label" placeholder="1">
           </div>
         </div>
 
@@ -117,14 +117,14 @@
       })
 
       $("#rent").click(function(){
+          var houseId = $("#middle-label").val();
           a = {
               "money": 1,
-              "houseId": "house3",
-              "renter": "renter8",
-              "tenant": "tenant1"
+              "houseId": "house" + houseId,
+              "renter": "renter" + houseId,
+              "tenant": "tenant" + houseId
           }
-          
-          alert(a)
+
           $.ajax({
               type: 'post',
               url: '/startRent',
@@ -138,17 +138,20 @@
               },
               success: function (data) {
                   var LogString = data["Log"];
-                  LogString.split("\n")
-                  $("#log-terminal").append();
-                  alert(JSON.stringify(data));
+                  var LogVec = LogString.split("\n");
+                  for (logx in LogVec) {
+                      $("#log-terminal").append(LogVec[logx] + "<br \>");
+                  }
+
               }
           });
       });
       $("#unlock").click(function(){
+          var houseId = $("#middle-label").val();
           a = {
-              "houseId": "house8",
-              "renter": "renter8",
-              "tenant": "tenant8"
+              "houseId": "house" + houseId,
+              "renter": "renter" + houseId,
+              "tenant": "tenant" + houseId
           }
 
           alert(JSON.stringify(a));

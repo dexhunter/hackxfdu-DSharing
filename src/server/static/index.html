@@ -8,59 +8,92 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="css/app.css">
+      <style>
+          #canvas{
+              width:100%;
+              height:2000px;
+              overflow: hidden;
+              position:absolute;
+              top:0;
+              left:0;
+          }
+          .canvas-wrap{
+              position:relative;
+          }
+          div.canvas-content{
+              position:relative;
+              z-index:2;
+              text-align:center;
+              padding-top:30px;
+          }
+      </style>
 </head>
   <body>
 
   <div data-sticky-container>
       <div class="title-bar" data-sticky data-options="marginTop:0;">
           <div class="title-bar-left">
-              <a href="/index.html">
-                  <img id="image" class="logo" src="/static/DSharing_logo_white.png">
+              <a href="index.html">
+                  <img id="image" class="logo" src="img/DSharing_logo_white.png">
               </a>
           </div>
           <div class="title-bar-right">
               <ul class="menu sticky-shrinknav-menu align-right">
-                  <li><a href="index.html">Home</a></li>
-                  <li><a href="/about.html">About</a></li>
-                  <li><a href="product-page.html">Project</a></li>
-                  <li><a href="/contact.html">Contact</a></li>
+                  <li><a href="index.html">主页</a></li>
+                  <li><a href="about.html">关于</a></li>
+                  <li><a href="project.html">项目</a></li>
+                  <li><a href="contact.html">联系我们</a></li>
               </ul>
           </div>
       </div>
   </div>
 
-  <header class="hero-search-filter">
-      <div class="hero-search-filter-content">
-          <div class="grid-y text-center">
-              <h1>DSharing</h1>
-              <p class="lead">xxx - 添加一些描述</p>
-              <!--<div>-->
-              <!--<a href="/about.html" class="button large alert">Learn More</a>-->
-              <!--<a href="#" class="button large hollow alert">Download</a>-->
-              <!--</div>-->
-          </div>
-          <img class="hero-search-filter-logo" src="https://placehold.it/1000x80" alt="" />
-          <form id="myform" class="hero-search-filter-form"  action="/search" method="get">
-              <label for="findtext">附近</label>
-              <input id="findtext" name="no" class="hero-search-filter-form-find" type="text" />
-              <div class="divider">&nbsp;</div>
-              <label for="findlocate">租金</label>
-              <input id="findlocate" name="yes" class="hero-search-filter-form-near" type="text" />
-              <button id="search" class="button" ><i class="fa fa-search"></i></button>
-          </form>
-          <ul class="hero-search-filter-menu menu align-center">
-              <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i> House</a></li>
-              <li><a href="#"><i class="fa fa-glass" aria-hidden="true"></i> Car</a></li>
-              <li><a href="#"><i class="fa fa-wrench" aria-hidden="true"></i> Home Services</a></li>
-              <li><a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i> Delivery</a></li>
-          </ul>
+  <section class="canvas-wrap">
+      <div class="canvas-content">
+          <header class="hero-search-filter">
+              <div class="hero-search-filter-content">
+                  <div class="grid-y text-center">
+                      <img id="image" class="logo-big" src="img/DSharing_logo_word.png">
+                      <br /><br />
+                      <p class="lead">更安全。更高效。更隐私。</p>
+                      <!--<div>-->
+                      <!--<a href="/about.html" class="button large alert">Learn More</a>-->
+                      <!--<a href="#" class="button large hollow alert">Download</a>-->
+                      <!--</div>-->
+                  </div>
+                  <form id="myform" class="hero-search-filter-form"  action="/search" method="get">
+                      <label class="light-label" for="findtext">附近</label>
+                      <input id="findtext" name="no" class="hero-search-filter-form-find" type="text" />
+                      <div class="divider">&nbsp;</div>
+                      <label class="light-label" for="findlocate">租金</label>
+                      <input id="findlocate" name="yes" class="hero-search-filter-form-near" type="text" />
+                      <button id="search" class="button" ><i class="fa fa-search"></i></button>
+                  </form>
+                  <ul class="hero-search-filter-menu menu align-center">
+                      <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i> 房屋</a></li>
+                      <li><a href="#"><i class="fa fa-car" aria-hidden="true"></i> 汽车</a></li>
+                      <li><a href="#"><i class="fa fa-plane" aria-hidden="true"></i> 私人飞机</a></li>
+                      <li><a href="#"><i class="fa fa-ship" aria-hidden="true"></i> 私人游艇</a></li>
+                  </ul>
+              </div>
+          </header>
       </div>
-  </header>
+      <div id="canvas"></div>
+  </section>
+  <script src="js/three.min.js"></script>
+  <script src="js/projector.js"></script>
+  <script src="js/canvas-renderer.js"></script>
+  <script src="js/3d-lines-animation.js"></script>
+  <script src="js/color.js"></script>
+
+
 
     <div class="grid-x grid-padding-x width-limit">
         <div class="medium-6 large-4 cell">
-            <h2>Anonymous, Performant Coin Mixing.</h2>
-            <p>xxx - 添加一些描述</p>
+            <h2>区块链+物联网</h2>
+            <p>物联网使区块链改变生活；</p>
+            <p>区块链使物联网更加互联；</p>
+            <p>区块链+物联网，改变世界。</p>
         </div>
         <div class="medium-6 large-8 cell">
             <!--<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>-->
@@ -68,42 +101,15 @@
         </div>
 
     </div>
-  <hr>
-
-  <div class="grid-x align-center width-limit">
-      <ul class="vertical medium-horizontal menu expanded align-center text-center display-block">
-          <li><a href="#"><div class="stat">{{height}}</div><span>Blockchain Height</span></a></li>
-          <li><a href="#"><div class="stat">3</div><span>Servers</span></a></li>
-          <li><a href="#"><div class="stat">95</div><span>Downloads</span></a></li>
-      </ul>
-  </div>
 
     <hr>
 
   <div class="grid-x align-spaced width-limit">
       <div class="cell text-center">
-          <h2>IPs and Pool Size</h2>
-          <p>IP - The IP address of the server.</p>
-          <p>Pool size - The amount of clients that have connected to that server. Will also indicate if a server is down.</p>
+          <h2>去中心化租赁平台，遍布全球</h2>
+          <p>关键信息无法被第三方获取，并将节省租主与租客之间的交流成本。</p>
+          <p>利用原生数字货币实现完善的信用征集机制和激励机制。</p>
       </div>
-    {% for pool in pools %}
-        <div class="dashboard-number-card positive">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h5 class="dashboard-number-value">{{pool[0][0]}}</h5>
-                </div>
-                <div class="panel-body">
-                    <p class="dashboard-number-area">
-                    {% if pool[1] != None %}
-                    {{pool[1]}} Joined
-                    {% else %}
-                    Server is not up
-                    {% endif %}
-                    </p>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
   </div>
 
   <div id="container_map" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -130,7 +136,7 @@
     <footer class="foot-bar">
         <div class="grid-x grid-padding-x align-center-middle" style="height: 5rem;">
             <div class="cell text-center">
-                Copyright 2017 Cornell University Soumya Lab Group
+                Copyright 2017 HackxFDU DSharing Group
             </div>
         </div>
     </footer>
@@ -144,7 +150,6 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.7.1/echarts.js"></script>
   <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
   <script type="text/javascript">
-
 
       $(document).foundation();
 
@@ -263,7 +268,7 @@
       };
 
       option = {
-          backgroundColor: '#404a59',
+          backgroundColor: '#0a1128',
           tooltip : {
               trigger: 'item'
           },
@@ -273,7 +278,7 @@
               x:'right',
               data:['pm2.5'],
               textStyle: {
-                  color: '#fff'
+                  color: '#fefcfb'
               }
           },
           geo: {
@@ -286,11 +291,11 @@
               roam: true,
               itemStyle: {
                   normal: {
-                      areaColor: '#323c48',
+                      areaColor: '#034078',
                       borderColor: '#111'
                   },
                   emphasis: {
-                      areaColor: '#2a333d'
+                      areaColor: '#001f54'
                   }
               }
           },
@@ -317,7 +322,7 @@
                   },
                   itemStyle: {
                       normal: {
-                          color: '#d31b0e',
+                          color: '#30aabc',
                           shadowBlur: 10,
                           shadowColor: '#333'
                       }

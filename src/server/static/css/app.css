@@ -4,6 +4,8 @@ body {
 
 #log-terminal {
     height: 30rem;
+    color: #fefcfb;
+    overflow:auto;
 }
 
 #div-statics {

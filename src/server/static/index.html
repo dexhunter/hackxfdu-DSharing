@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="css/app.css">
       <style>
+          canvas {width:100%; height:100px;}
           #canvas{
               width:100%;
-              height:2000px;
+              height:1200px;
               overflow: hidden;
               position:absolute;
               top:0;
@@ -55,7 +56,7 @@
                   <div class="grid-y text-center">
                       <img id="image" class="logo-big" src="img/DSharing_logo_word.png">
                       <br /><br />
-                      <p class="lead">更安全。更高效。更隐私。</p>
+                      <p class="lead">更安全、更高效、更隐私。</p>
                       <!--<div>-->
                       <!--<a href="/about.html" class="button large alert">Learn More</a>-->
                       <!--<a href="#" class="button large hollow alert">Download</a>-->
@@ -91,8 +92,8 @@
     <div class="grid-x grid-padding-x width-limit">
         <div class="medium-6 large-4 cell">
             <h2>区块链+物联网</h2>
-            <p>物联网使区块链改变生活；</p>
-            <p>区块链使物联网更加互联；</p>
+            <p>物联网使区块链改变生活，</p>
+            <p>区块链使物联网更加互联，</p>
             <p>区块链+物联网，改变世界。</p>
         </div>
         <div class="medium-6 large-8 cell">
@@ -118,16 +119,17 @@
 
     <div class="grid-x grid-padding-x width-limit">
       <div class="small-4 cell">
-        <h3>Full Stack Anonymity</h3>
-        <p>Network layer adversaries will have exactly the same amount of information as the blockchain.</p>
+        <h3>全方位隐私保护</h3>
+        <p>关键信息（门锁密码）无法被第三方获取，直接将卖家转换使用权到用户手中。在时间范围内，除了制定用户，任何其他人包括卖家也不可以开启门锁。因此，用户的安全得到了最大化的保障。
+            </p>
       </div>
       <div class="small-4 cell">
-        <h3>Efficient</h3>
-        <p>Route traffic through our rendezvous servers for faster communication-- without losing security!</p>
+        <h3>零交流成本</h3>
+        <p>商家不需要监视每一笔交易，只要条件符合（用户转了指定额度的钱），智能合约将自动将门锁信息发送给用户。为商家提供了便捷，节省了时间。</p>
       </div>
       <div class="small-4 cell">
-        <h3>Agnostic</h3>
-        <p>Easy to incorporate anonymity enhancements to Bitcoin as they come out.</p>
+        <h3>更安全、更稳定</h3>
+        <p>区块链的去中心化特性使得整个平台更加稳定，不会因为个别故障而出现问题</p>
       </div>
     </div>
 
@@ -334,6 +336,17 @@
       if (option && typeof option === "object") {
           myChart_map.setOption(option, true);
       };
+
+      $(window).resize(resizeCanvas);
+
+      function resizeCanvas() {
+          var newWidth = $(window).get(0).innerWidth;
+          var newHeight = $(window).get(0).innerHeight;
+          $("#canvas").width(newWidth).height(newHeight);
+
+      };
+
+      resizeCanvas();
   </script>
   </body>
 </html>

@@ -19,10 +19,10 @@
 
         <div class="title-bar-right">
           <ul class="menu sticky-shrinknav-menu align-right">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="project.html">Project</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="index.html">主页</a></li>
+            <li><a href="about.html">关于</a></li>
+            <li><a href="project.html">项目</a></li>
+            <li><a href="contact.html">关于我们</a></li>
           </ul>
         </div>
       </div>
@@ -33,25 +33,28 @@
 
     <div class="row">
       <div class="medium-6 columns">
-        <img class="thumbnail" src="http://placehold.it/650x350">
+        <img class="thumbnail" src="img/1.jpg">
         <div class="row small-up-4">
           <div class="column">
-            <img class="thumbnail" src="http://placehold.it/250x200">
+            <img class="thumbnail" src="img/1.jpg">
           </div>
           <div class="column">
-            <img class="thumbnail" src="http://placehold.it/250x200">
+            <img class="thumbnail" src="img/2.jpg">
           </div>
           <div class="column">
-            <img class="thumbnail" src="http://placehold.it/250x200">
+            <img class="thumbnail" src="img/3.jpg">
           </div>
           <div class="column">
-            <img class="thumbnail" src="http://placehold.it/250x200">
+            <img class="thumbnail" src="img/4.jpg">
           </div>
         </div>
       </div>
       <div class="medium-6 large-5 columns">
-        <h3>My Awesome Product</h3>
-        <p>Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in.</p>
+        <h3>My Awesome house</h3>
+        <p>houseId: house11</p>
+        <p>地址: Beijing MY STREET 426</p>
+        <p>日租金: 9</p>
+        <p>屋主：renter11</p>
 
         <div class="row">
           <div class="small-6 columns">
@@ -73,10 +76,10 @@
 
         <div class="row">
           <div class="small-3 columns">
-            <label for="middle-label" class="middle light-label">租客人数</label>
+            <label for="middle-label" class="middle light-label">房屋编号</label>
           </div>
           <div class="small-9 columns">
-            <input type="text" id="middle-label" placeholder="One fish two fish">
+            <input type="text" id="middle-label" placeholder="1">
           </div>
         </div>
 
@@ -114,15 +117,14 @@
       })
 
       $("#rent").click(function(){
+          var houseId = $("#middle-label").val();
           a = {
-              "action": "rent",
               "money": 1,
-              "houseId": "house108",
-              "renter": "renter108",
-              "tenant": "tenant108"
+              "houseId": "house" + houseId,
+              "renter": "renter" + houseId,
+              "tenant": "tenant" + houseId
           }
-          
-          alert(a)
+          alert("开始预订！")
           $.ajax({
               type: 'post',
               url: '/startRent',
@@ -135,23 +137,26 @@
                   alert("Connection error");
               },
               success: function (data) {
-                  $("#log-terminal").append(data["log"]);
-                  alert(JSON.stringify(data));
+                  var LogString = data["Log"];
+                  var LogVec = LogString.split("\n");
+                  for (logx in LogVec) {
+                      $("#log-terminal").append(LogVec[logx] + "<br \>");
+                  }
+
               }
           });
       });
       $("#unlock").click(function(){
+          var houseId = $("#middle-label").val();
           a = {
-              "action": "open",
-              "houseId": "house108",
-              "renter": "renter108",
-              "tenant": "tenant108"
+              "houseId": "house" + houseId,
+              "renter": "renter" + houseId,
+              "tenant": "tenant" + houseId
           }
 
-          alert(JSON.stringify(a));
           $.ajax({
               type: 'post',
-              url: '/openLock',
+              url: '/Unlock',
 //              data: $("#myform").serialize(),
               data: JSON.stringify(a),
               cache: false,
@@ -161,7 +166,12 @@
                   alert("Connection error");
               },
               success: function (data) {
-                  alert(JSON.stringify(data));
+                var LogString = data["Log"];
+                var LogVec = LogString.split("\n");
+                alert("收到开锁请求！")
+                for (logx in LogVec) {
+                    $("#log-terminal").append(LogVec[logx] + "<br \>");
+                  }
               }
           });
       });

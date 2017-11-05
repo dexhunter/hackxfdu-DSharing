@@ -5,6 +5,7 @@ body {
 #log-terminal {
     height: 30rem;
     color: #fefcfb;
+    font-family: Courier New;
     overflow:auto;
 }
 

@@ -58,7 +58,7 @@ def start_rent():
 
         rentReq = requests.post(
             "http://168.1.144.159:31090/api/RentHouse", data=payload)
-        loggging.info( "Rent house return:%s " % rentReq.text)
+        print( "Rent house return:%s " % rentReq.text)
         rentResult = json.loads(rentReq.text)
         if rentResult.has_key('error'):
             log += str(rentResult['error']['message']) + "\n"
@@ -73,7 +73,7 @@ def start_rent():
             'oldOwner': renter,
             'newOwner': tenant,
             'lock': houseId,
-            'flag': True
+            'flag': "true"
         }
         log += "start to transform ownership=========>\n"
         log += "the house's owner change: " + renter + " --> " + tenant + "\n"
@@ -81,7 +81,7 @@ def start_rent():
         logging.info(log)
         transReq = requests.post(
             "http://168.1.144.159:31090/api/TransferOwnership", data=transFormPayLoad)
-        logging.info( "TransForm ownership return: %s" % transReq.text)
+        print( "TransForm ownership return: %s" % transReq.text)
         transformResult = json.loads(transReq.text)
         if transformResult.has_key('error'):
             log += str(transformResult['error']['message']) + "\n"
@@ -120,6 +120,7 @@ def unlock():
     r = requests.post("http://168.1.144.159:31090/api/LockOrder", data=payLoad)
     logging.info('%s'%r)
     if useuno:
+        logging.info('Arduino Opened')
         a.digital_write(LED_PIN, 1) #set light on
     result = json.loads(r.text)
     if result.has_key('error'):
@@ -178,7 +179,7 @@ def auto_return():
             for data in dic.keys():
                 if data == 'timestamp':
                     print dic[data]
-                    print datetime.utcfromtimestamp(dic[data])
+                    print dateutil.parser(datetime.utcfromtimestamp(dic[data]))
 
     elif request.method == 'POST':
         param = request.get_json()
@@ -211,6 +212,75 @@ def auto_return():
 
     return json.dumps(res)
 
+
+@app.route("/returnRent", methods=['GET', 'POST'])
+def return_rent():
+    res = {}
+    res['errorMsg'] = ""
+    try:
+        # generate post body
+        log = ""
+        logging.info( "----")
+        param = request.get_json()
+        houseId = param['houseId']
+        renter = param['renter']
+        tenant = param['tenant']
+        payload = {
+            'returnHouseId': ''.join(map(lambda xx: (hex(ord(xx))[2:]), os.urandom(16))),
+            'house': houseId,
+            'renter': renter,
+            'tenant': tenant
+        }
+        # send post req
+        log += "=========now start rent house========\n"
+        log += "renter: " + renter + "\n"
+        log += "tenant: " + tenant + "\n"
+        log += "strat to add one transaction=========>\n"
+
+        rentReq = requests.post(
+            "http://168.1.144.159:31090/api/ReturnHouse", data=payload)
+        print( "Return house return:%s " % rentReq.text)
+        rentResult = json.loads(rentReq.text)
+        if rentResult.has_key('error'):
+            log += str(rentResult['error']['message']) + "\n"
+            log += "!!!!!!!!!!!   Rent transaction operation failed   !!!!!!!!!!!\n"
+            res['success'] = 0
+            res['errorMsg'] += str(rentResult['error']['message']) + "\n"
+        else:
+            log += "Rent transaction operation success\n"
+
+
+        transFormPayLoad = {
+            'oldOwner': renter,
+            'newOwner': tenant,
+            'lock': houseId,
+            'flag': "false"
+        }
+        log += "start to transform ownership=========>\n"
+        log += "the house's owner change: " + renter + " --> " + tenant + "\n"
+        log += "strat to add one transaction=========>\n"
+        logging.info(log)
+        transReq = requests.post("http://168.1.144.159:31090/api/TransferOwnership", data=transFormPayLoad)
+        print( "TransForm ownership return: %s" % transReq.text)
+        transformResult = json.loads(transReq.text)
+        if transformResult.has_key('error'):
+            log += str(transformResult['error']['message']) + "\n"
+            log += "!!!!!!!!!!!   TransForm transaction operation failed   !!!!!!!!!!!\n"
+            res['success'] = 0
+            res['errorMsg'] = str(transformResult['error']['message'])
+        else:
+            log += "TransForm transaction operation success\n"
+            res['success'] = 1
+            res['errorMsg'] = ""
+
+        res['Log'] = log
+        logging.info(log)
+
+    except Exception, e:
+        logging.info(traceback.format_exc())
+        logging.info("Return Error!!!")
+
+    return json.dumps(res)
 
 
 if __name__ == "__main__":

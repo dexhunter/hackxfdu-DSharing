@@ -7,55 +7,38 @@
   <!--<link rel="stylesheet" href="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.css">-->
   <!-- Compressed CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
-  <link rel="stylesheet" href="/static/css/app.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
 <div data-sticky-container>
   <div class="title-bar" data-sticky data-options="marginTop:0;">
     <div class="title-bar-left">
-      <a href="/index.html">
-        <img id="image" class="logo" src="/static/anonymix_logo_white.png">
+      <a href="index.html">
+        <img id="image" class="logo" src="img/DSharing_logo_white.png">
       </a>
     </div>
     <div class="title-bar-right">
       <ul class="menu sticky-shrinknav-menu align-right">
-        <li><a href="/index.html">Home</a></li>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/project.html">Project</a></li>
-        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="index.html">主页</a></li>
+        <li><a href="about.html">关于</a></li>
+        <li><a href="project.html">项目</a></li>
+        <li><a href="contact.html">联系我们</a></li>
       </ul>
     </div>
   </div>
 </div>
 
-<div class="grid-y width-limit">
-  <h1>Transaction Details</h1>
-  <form>
-    <div class="input-group">
-      <input class="input-group-field" type="text" name="text" placeholder="Enter Txid">
-      <div class="input-group-button">
-        <input type="submit" class="button alert" name="Get transaction" value="Find Transaction">
-      </div>
-    </div>
-  </form>
-  <table class="hover" style="word-break: break-all">
-    <thead>
-    <tr>
-      <th width="200">Key</th>
-      <th>Value</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for field in tx %}
-    <tr>
-      <td>{{field}}</td>
-      <td>{{tx[field]}}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+<div class="grid-x grid-padding-x text-center width-limit">
+  <div class="cell">
+    <img id="image" class="icon" src="img/DSharing_logo_white.png">
+  </div>
+  <div class="cell">
+    <h1>xxx - Put a Description</h1>
+    <p>xxx - This is a page we could use to talk about what Anonymix is and what it does.</p>
+  </div>
+
 </div>
 
 <hr>
@@ -63,7 +46,7 @@
 <footer class="foot-bar">
   <div class="grid-x grid-padding-x align-center-middle" style="height: 5rem;">
     <div class="cell text-center">
-      Copyright 2017 Cornell University Soumya Lab Group
+      Copyright 2017 HackxFDU DSharing Group
     </div>
   </div>
 </footer>

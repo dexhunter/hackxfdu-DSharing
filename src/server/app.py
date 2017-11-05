@@ -14,7 +14,7 @@ import dateutil.parser
 try:
     from pyduino import *
     useuno = True
-except ImportErro:
+except ImportError:
     useuno = False
 
 

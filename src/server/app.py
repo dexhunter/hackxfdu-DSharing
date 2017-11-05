@@ -54,7 +54,7 @@ def start_rent():
         log += "renter: " + renter + "\n"
         log += "tenant: " + tenant + "\n"
         log += "payment: " + str(money) + "\n"
-        log += "strat to add one transaction=========>\n"
+        log += "start to add one transaction=========>\n"
 
         rentReq = requests.post(
             "http://168.1.144.159:31090/api/RentHouse", data=payload)
@@ -77,7 +77,7 @@ def start_rent():
         }
         log += "start to transform ownership=========>\n"
         log += "the house's owner change: " + renter + " --> " + tenant + "\n"
-        log += "strat to add one transaction=========>\n"
+        log += "start to add one transaction=========>\n"
         logging.info(log)
         transReq = requests.post(
             "http://168.1.144.159:31090/api/TransferOwnership", data=transFormPayLoad)
@@ -232,10 +232,10 @@ def return_rent():
             'tenant': tenant
         }
         # send post req
-        log += "=========now start rent house========\n"
+        log += "=========now start return house========\n"
         log += "renter: " + renter + "\n"
         log += "tenant: " + tenant + "\n"
-        log += "strat to add one transaction=========>\n"
+        log += "start to add one transaction=========>\n"
 
         rentReq = requests.post(
             "http://168.1.144.159:31090/api/ReturnHouse", data=payload)
@@ -243,11 +243,11 @@ def return_rent():
         rentResult = json.loads(rentReq.text)
         if rentResult.has_key('error'):
             log += str(rentResult['error']['message']) + "\n"
-            log += "!!!!!!!!!!!   Rent transaction operation failed   !!!!!!!!!!!\n"
+            log += "!!!!!!!!!!!   Return transaction operation failed   !!!!!!!!!!!\n"
             res['success'] = 0
             res['errorMsg'] += str(rentResult['error']['message']) + "\n"
         else:
-            log += "Rent transaction operation success\n"
+            log += "Return transaction operation success\n"
 
 
         transFormPayLoad = {
@@ -258,7 +258,7 @@ def return_rent():
         }
         log += "start to transform ownership=========>\n"
         log += "the house's owner change: " + renter + " --> " + tenant + "\n"
-        log += "strat to add one transaction=========>\n"
+        log += "start to add one transaction=========>\n"
         logging.info(log)
         transReq = requests.post("http://168.1.144.159:31090/api/TransferOwnership", data=transFormPayLoad)
         print( "TransForm ownership return: %s" % transReq.text)

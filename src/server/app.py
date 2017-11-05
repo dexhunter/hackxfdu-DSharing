@@ -25,7 +25,7 @@ if useuno:
     a = Arduino(serial_port='/dev/ttyUSB0')
     LED_PIN = 13
     a.set_pin_mode(LED_PIN, '0')
-    loggin.info('Arduino initialized')
+    logging.info('Arduino initialized')
 
 
 

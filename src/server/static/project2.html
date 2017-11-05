@@ -85,6 +85,7 @@
 
         <a id="rent" class="button large expanded">预订</a>
         <a id="unlock" class="button large expanded">开锁</a>
+        <a id="return" class="button large expanded">退订</a>
       </div>
     </div>
 
@@ -146,6 +147,36 @@
               }
           });
       });
+      
+      $("#return").click(function(){
+          var houseId = $("#middle-label").val();
+          a = {
+              "houseId": "house" + houseId,
+              "renter": "renter" + houseId,
+              "tenant": "tenant" + houseId
+          }
+          alert("退订成功！")
+          $.ajax({
+              type: 'post',
+              url: '/returnRent',
+              data: JSON.stringify(a),
+              cache: false,
+              dataType: 'json',
+              contentType: 'application/json',
+              error: function (request) {
+                  alert("Connection error");
+              },
+              success: function (data) {
+                  var LogString = data["Log"];
+                  var LogVec = LogString.split("\n");
+                  for (logx in LogVec) {
+                      $("#log-terminal").append(LogVec[logx] + "<br \>");
+                  }
+
+              }
+          });
+      });
+      
       $("#unlock").click(function(){
           var houseId = $("#middle-label").val();
           a = {

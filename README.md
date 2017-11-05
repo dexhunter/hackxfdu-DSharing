@@ -4,11 +4,10 @@ HACKxFDU DSharing
 # Introduction
 A renting platform based on block chain and iot. This repo consists of chain code built on hyperledger composer and a web application used as a interface. The demo is about renting houses or apartments.
 
-# Dependencies
+# Dependencies 
 * ibm bluemix & blockchain service (cloud service)
-* ibm hyperledger-composer environment
-* python2.7 & package Flask
-* jquery
+* ibm Hyperledger Composer 
+* Flask Framework
 
 # How to start
 * Register ibm account and build blockchain service following tutorials. (bluemix CLI & kubectl CLI are needed)

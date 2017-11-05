@@ -1,40 +1,40 @@
 /**
  * New model file
-  * declare an item type: House
-   * declare two transaction type: RentHouse & ReturnHouse
-    */
+ * declare an item type: House
+ * declare two transaction type: RentHouse & ReturnHouse
+ */
 
-    namespace org.acme.items
-    import composer.base.*
-    import org.acme.roles.*
-    import org.acme.business.*
+namespace org.acme.items
+import composer.base.*
+import org.acme.roles.*
+import org.acme.business.*
 
-    concept houseDetails {
-          o Address address
-            o Double area
-    }
+concept houseDetails {
+  o Address address
+  o Double area
+}
 
-    asset House identified by houseId extends item {
-          o String houseId
-            o houseDetails details
-              o Double gas
-                --> Renter owner
-                  --> Tenant user
-    }
+asset House identified by houseId extends item {
+  o String houseId
+  o houseDetails details
+  o Double gas
+  --> Renter owner
+  --> Tenant user
+}
 
-    transaction RentHouse extends RentItem {
-          o String rentHouseId
-            o Double payment
-              --> House house
-    }
+transaction RentHouse extends RentItem {
+  o String rentHouseId
+  o Double payment
+  --> House house
+}
 
-    transaction ReturnHouse extends ReturnItem {
-          o String returnHouseId
-            --> House house
-    }
+transaction ReturnHouse extends ReturnItem {
+  o String returnHouseId
+  --> House house
+}
 
-    transaction SendGas {
-          --> House house
-            --> Renter renter
-              o Double eachSend
-    }
+transaction SendGas {
+  --> House house
+  --> Renter renter
+  o Double eachSend
+}

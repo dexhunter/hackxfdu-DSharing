@@ -1,6 +1,4 @@
-
-
-rule myUserRule {
+rule TenantAccessOwnRecord {
     description: "limit specified user's admission"
     participant(p): "org.acme.roles.Tenant"
     operation: ALL

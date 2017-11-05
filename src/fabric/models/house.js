@@ -61,12 +61,12 @@ function returnHouse(returnHouse) {
 
 /**
  * send money to renter periodly
- * @param {org.acme.items.SendGas} sendGas - the sendGas transaction
+ * @param {org.acme.items.SendGas} sendGas - the sendGas transaction (to record time)
  * @transaction
  */
 function sendGas(sendGas) {
   console.log('send money');
-  if (sendGas.house.owner.renterId != sendGas.renter.renterId) {
+  if (sendGas.house.owner != sendGas.renter) {
     throw new Error("invalid house!");
   }
   if (sendGas.house.gas < sendGas.eachSend ) {

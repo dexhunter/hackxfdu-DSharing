@@ -8,7 +8,7 @@
   "networkImage": "https://github.com/DexHunter/hackxfdu-DSharing/blob/master/lock.svg",
   "networkImageanimated": "https://github.com/DexHunter/hackxfdu-DSharing/blob/master/lock.svg",
   "scripts": {
-    "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/basic-sample-network.bna",
+    "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/DSharing.bna",
     "pretest": "npm run lint",
     "lint": "eslint .",
     "postlint": "npm run licchk",

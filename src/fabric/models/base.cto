@@ -1,23 +1,22 @@
 /**
  * My commodity trading network
-  */
-  namespace composer.base
+ */
+namespace composer.base
 
-  abstract participant Person {
-        o String firstName optional
-          o String lastName optional
-            o String descriptions optional
-  }
+abstract participant Person {
+  o String firstName optional
+  o String lastName optional
+  o String descriptions optional
+}
 
-  concept Address {
-        o String city
-          o String street
-            o String detail
-  }
+concept Address {
+  o String city
+  o String street
+  o String detail
+}
 
-  abstract asset item {
-        o String descriptions
-  }
+abstract asset item {
+  o String descriptions
+}
 
-  transaction SetupDemo {
-  }
+

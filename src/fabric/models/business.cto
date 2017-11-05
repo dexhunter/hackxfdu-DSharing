@@ -1,16 +1,16 @@
 /**
  * New model file
-  */
+ */
 
-  namespace org.acme.business
-  import org.acme.roles.*
+namespace org.acme.business
+import org.acme.roles.*
 
-  abstract transaction RentItem {
-        --> Renter renter
-          --> Tenant tenant
-  }
+abstract transaction RentItem {
+  --> Renter renter
+  --> Tenant tenant
+}
 
-  abstract transaction ReturnItem {
-        --> Renter renter
-          --> Tenant tenant
-  }
+abstract transaction ReturnItem {
+  --> Renter renter
+  --> Tenant tenant
+}

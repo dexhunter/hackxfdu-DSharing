@@ -1,0 +1,176 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+    <link rel="stylesheet" href="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link rel="stylesheet" href="css/app.css">
+  </head>
+  <body>
+
+    <div data-sticky-container>
+      <div class="title-bar" data-sticky data-options="marginTop:0;">
+        <div class="title-bar-left">
+          <a href="index.html">
+            <img id="image" class="logo" src="img/DSharing_logo_white.png">
+          </a>
+        </div>
+
+        <div class="title-bar-right">
+          <ul class="menu sticky-shrinknav-menu align-right">
+            <li><a href="index.html">主页</a></li>
+            <li><a href="about.html">关于</a></li>
+            <li><a href="project.html">项目</a></li>
+            <li><a href="contact.html">关于我们</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- You can now combine a row and column if you just need a 12 column row -->
+
+    <div class="row">
+      <div class="medium-6 columns">
+        <img class="thumbnail" src="img/1.jpg">
+        <div class="row small-up-4">
+          <div class="column">
+            <img class="thumbnail" src="img/1.jpg">
+          </div>
+          <div class="column">
+            <img class="thumbnail" src="img/2.jpg">
+          </div>
+          <div class="column">
+            <img class="thumbnail" src="img/3.jpg">
+          </div>
+          <div class="column">
+            <img class="thumbnail" src="img/4.jpg">
+          </div>
+        </div>
+      </div>
+      <div class="medium-6 large-5 columns">
+        <h3>My Awesome house</h3>
+        <p>houseId: house11</p>
+        <p>地址: Beijing MY STREET 426</p>
+        <p>日租金: 9</p>
+        <p>屋主：renter11</p>
+
+        <div class="row">
+          <div class="small-6 columns">
+            <label for="checkin-label" class="middle  light-label">入住</label>
+          </div>
+          <div class="small-6 columns">
+            <label for="checkout-label" class="middle  light-label">离开</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-6 columns">
+            <input type="date" id="checkin-label" placeholder="One">
+          </div>
+          <div class="small-6 columns">
+            <input type="date" id="checkout-label" placeholder="Two">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="small-3 columns">
+            <label for="middle-label" class="middle light-label">租客人数</label>
+          </div>
+          <div class="small-9 columns">
+            <input type="number" id="middle-label" placeholder="1">
+          </div>
+        </div>
+
+        <a id="rent" class="button large expanded">预订</a>
+        <a id="unlock" class="button large expanded">开锁</a>
+      </div>
+    </div>
+
+    <hr>
+
+    <div id="log-terminal" class="column row">
+
+    </div>
+
+      <br>
+
+    <footer class="foot-bar">
+      <div class="grid-x grid-padding-x align-center-middle" style="height: 5rem;">
+        <div class="cell text-center">
+          Copyright 2017 HackxFDU DSharing Group
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/js/foundation.min.js"></script>
+
+    <script>
+      $(document).foundation();
+
+      $('.title-bar').on('sticky.zf.stuckto:top', function(){
+          $(this).addClass('shrink');
+      }).on('sticky.zf.unstuckfrom:top', function(){
+          $(this).removeClass('shrink');
+      })
+
+      $("#rent").click(function(){
+          a = {
+              "money": 1,
+              "houseId": "house3",
+              "renter": "renter8",
+              "tenant": "tenant1"
+          }
+          
+          alert(a)
+          $.ajax({
+              type: 'post',
+              url: '/startRent',
+//              data: $("#myform").serialize(),
+              data: JSON.stringify(a),
+              cache: false,
+              dataType: 'json',
+              contentType: 'application/json',
+              error: function (request) {
+                  alert("Connection error");
+              },
+              success: function (data) {
+                  var LogString = data["Log"];
+                  LogString.split("\n")
+                  $("#log-terminal").append();
+                  alert(JSON.stringify(data));
+              }
+          });
+      });
+      $("#unlock").click(function(){
+          a = {
+              "houseId": "house8",
+              "renter": "renter8",
+              "tenant": "tenant8"
+          }
+
+          alert(JSON.stringify(a));
+          $.ajax({
+              type: 'post',
+              url: '/Unlock',
+//              data: $("#myform").serialize(),
+              data: JSON.stringify(a),
+              cache: false,
+              dataType: 'json',
+              contentType: 'application/json',
+              error: function (request) {
+                  alert("Connection error");
+              },
+              success: function (data) {
+                  alert(JSON.stringify(data));
+              }
+          });
+      });
+    </script>
+  </body>
+</html>
+
+
+    

@@ -8,7 +8,7 @@ class Setup(object):
         self.first_name_list = ['Bob','Peter', 'Jane', 'Kelly', 'Easter', 'Addison', 'Fred', 'Alex', 'Ryan', 'Aidan', 'Kylie', 'Tommy','Willion', 'James', 'Solomon', 'Leon', 'Barry', 'Benson', 'Albert', 'Bruce']
         self.last_name_list = ['Black', 'Queen', 'Brown', 'Ryan', 'Butler', 'Murry']
         self.city_list = ['Shanghai', 'Beijing', 'Wuhan', 'Shenzhen', 'Nanjing']
-        self.headers = {'Content_Type': 'application/x-www-form-urlencoded'}
+        self.headers = {'Content_Type': 'application/json'}
 
     def generate_renter(self):
         print("generating renters...")
@@ -65,6 +65,7 @@ class Setup(object):
                         "id": "default",
                     },
                     "gas": str(0),
+                    "price": str(2),
                     "owner": "render"+str(i),
                     "user": "None",
                     "descriptions": "no description"
@@ -82,5 +83,8 @@ class Setup(object):
 
 
 test = Setup()
+test.generate_renter()
+test.generate_tenant()
 test.generate_house()
-#test.generate_renter()
+
+

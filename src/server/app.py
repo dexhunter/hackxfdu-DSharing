@@ -8,6 +8,8 @@ import time
 import logging
 from flask import Flask, request
 import requests
+from datetime import datetime
+import dateutil.parser
 from pyduino import *
 
 
@@ -28,8 +30,7 @@ def start_rent():
     try:
         # generate post body
         log = ""
-        print "----"
-        print request.get_json()
+        logging.info( "----")
         param = request.get_json()
         houseId = param['houseId']
         renter = param['renter']
@@ -51,7 +52,7 @@ def start_rent():
 
         rentReq = requests.post(
             "http://168.1.144.159:31090/api/RentHouse", data=payload)
-        print "Rent house return: " + rentReq.text
+        loggging.info( "Rent house return:%s " % rentReq.text)
         rentResult = json.loads(rentReq.text)
         if rentResult.has_key('error'):
             log += str(rentResult['error']['message']) + "\n"
@@ -60,6 +61,7 @@ def start_rent():
             res['errorMsg'] += str(rentResult['error']['message']) + "\n"
         else:
             log += "Rent transaction operation success\n"
+
 
         transFormPayLoad = {
             'oldOwner': renter,
@@ -70,10 +72,10 @@ def start_rent():
         log += "start to transform ownership=========>\n"
         log += "the house's owner change: " + renter + " --> " + tenant + "\n"
         log += "strat to add one transaction=========>\n"
-        print log
+        logging.info(log)
         transReq = requests.post(
             "http://168.1.144.159:31090/api/TransferOwnership", data=transFormPayLoad)
-        print "TransForm ownership return: " + transReq.text
+        logging.info( "TransForm ownership return: %s" % transReq.text)
         transformResult = json.loads(transReq.text)
         if transformResult.has_key('error'):
             log += str(transformResult['error']['message']) + "\n"
@@ -86,11 +88,11 @@ def start_rent():
             res['errorMsg'] = ""
 
         res['Log'] = log
-        print log
+        logging.info(log)
 
     except Exception, e:
-        print(traceback.format_exc())
-        print "Rent Error!!!"
+        logging.info(traceback.format_exc())
+        logging.info("Rent Error!!!")
 
     return json.dumps(res)
 
@@ -199,6 +201,50 @@ def auto_return():
     res = {}
     payLoad = {}
 
+    start_time = time.time()
+    if request.method == 'GET':
+        print("GETTTTTTTTTTTTTTTTTTTTTTTTTTT")
+        r = requests.get("http://168.1.144.159:31090/api/RentHouse")
+        print(type(r))
+        result = json.loads(r.content)
+        logging.info('%s'%result)
+        print type(result) #list
+        for dic in result:
+            for data in dic.keys():
+                if data == 'timestamp':
+                    print dic[data]
+                    print datetime.utcfromtimestamp(dic[data])
+
+    elif request.method == 'POST':
+        param = request.get_json()
+        rentHouseId = param.get('rentHouseId', 'rent1')
+        payment = param.get('payment', 10)
+        house = param.get('house', 'house1')
+        renter = param.get('renter', 'renter1')
+        tenant = param.get('tenant', 'tenant1')
+        payLoad = {
+            "rentHouseId": rentHouseId,
+            "payment": payment,
+            "house": house,
+            "renter": renter,
+            "tenant": tenant,
+        }
+
+        r = requests.post("http://168.1.144.159:31090/api/RentHouse", data=payLoad)
+        result = json.loads(r.text)
+        logging.info('%s'%result)
+
+        if result.has_key('error'):
+            log += str(result['error']['message']) + "\n"
+            log += "!!!!!!!!!!!   Lock transaction operation failed   !!!!!!!!!!!\n"
+            res['success'] = 0
+            res['errorMsg'] = str(result['error']['message'])
+        else:
+            log += "Lock transaction operation success\n"
+            res['success'] = 1
+            res['errorMsg'] = ""
+
+    return json.dumps(res)
 
 
 

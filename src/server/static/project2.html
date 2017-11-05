@@ -124,7 +124,7 @@
               "renter": "renter" + houseId,
               "tenant": "tenant" + houseId
           }
-
+          alert("开始预订！")
           $.ajax({
               type: 'post',
               url: '/startRent',
@@ -168,6 +168,7 @@
               success: function (data) {
                 var LogString = data["Log"];
                 var LogVec = LogString.split("\n");
+                alert("收到开锁请求！")
                 for (logx in LogVec) {
                     $("#log-terminal").append(LogVec[logx] + "<br \>");
                   }

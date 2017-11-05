@@ -10,17 +10,23 @@ from flask import Flask, request
 import requests
 from datetime import datetime
 import dateutil.parser
-from pyduino import *
+
+try:
+    from pyduino import *
+    useuno = True
+except ImportErro:
+    useuno = False
 
 
 app = Flask(__name__, static_url_path="")
 
-
+if useuno:
 # arduino control
-a = Arduino(serial_port='/dev/ttyUSB0')
-LED_PIN = 13
-a.set_pin_mode(LED_PIN, '0')
-print('Arduino initialized')
+    a = Arduino(serial_port='/dev/ttyUSB0')
+    LED_PIN = 13
+    a.set_pin_mode(LED_PIN, '0')
+    loggin.info('Arduino initialized')
+
 
 
 @app.route("/startRent", methods=['GET', 'POST'])
@@ -97,49 +103,6 @@ def start_rent():
     return json.dumps(res)
 
 
-@app.route("/openLock", methods=['GET', 'POST'])
-def open_lock():
-    res = {}
-    try:
-        log = ""
-        param = request.get_json()
-        houseId = param['houseId']
-        renter = param['renter']
-        tenant = param['tenant']
-        payLoad = {
-            'newOwner': tenant,
-            'lock': houseId,
-            'order': 'lock'
-        }
-        log += "=========now start lock house========\n"
-        log += "renter: " + renter + "\n"
-        log += "tenant: " + tenant + "\n"
-        log += "houseId: " + houseId + "\n"
-        log += "strat to add one transaction=========>\n"
-        r = requests.post(
-            "http://168.1.144.159:31090/api/LockOrder", data=payLoad)
-        print "open lock return: " + r.text
-        result = json.loads(r.text)
-        if result.has_key('error'):
-            log += str(result['error']['message']) + "\n"
-            log += "!!!!!!!!!!!   Lock transaction operation failed   !!!!!!!!!!!\n"
-            res['success'] = 0
-            res['errorMsg'] = str(result['error']['message'])
-        else:
-            log += "Lock transaction operation success\n"
-            res['success'] = 1
-            res['errorMsg'] = ""
-    except Exception:
-        print(traceback.format_exc())
-        print "open lock Error!!!"
-        pass
-    # if the first time, start timing
-
-    res['Log'] = log
-
-    return json.dumps(res)
-
-
 @app.route("/Unlock", methods=['GET', 'POST'])
 def unlock():
     log = ""
@@ -156,7 +119,8 @@ def unlock():
     }
     r = requests.post("http://168.1.144.159:31090/api/LockOrder", data=payLoad)
     logging.info('%s'%r)
-    a.digital_write(LED_PIN, 1) #set light on
+    if useuno:
+        a.digital_write(LED_PIN, 1) #set light on
     result = json.loads(r.text)
     if result.has_key('error'):
         log += str(result['error']['message']) + "\n"
@@ -178,7 +142,8 @@ def unlock():
     }
     r = requests.post("http://168.1.144.159:31090/api/LockOrder", data=payLoad)
     logging.info('%s'%r)
-    a.digital_write(LED_PIN, 0) #set light off
+    if useuno:
+        a.digital_write(LED_PIN, 0) #set light off
     result = json.loads(r.text)
     if result.has_key('error'):
         log += str(result['error']['message']) + "\n"

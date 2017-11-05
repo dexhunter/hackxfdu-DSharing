@@ -4,6 +4,8 @@ import os
 import json
 import random
 import traceback
+import time
+import logging
 from flask import Flask, request
 import requests
 from pyduino import *
@@ -93,8 +95,8 @@ def start_rent():
     return json.dumps(res)
 
 
-@app.route("/Lock", methods=['GET', 'POST'])
-def lock():
+@app.route("/openLock", methods=['GET', 'POST'])
+def open_lock():
     res = {}
     try:
         log = ""
@@ -102,19 +104,11 @@ def lock():
         houseId = param['houseId']
         renter = param['renter']
         tenant = param['tenant']
-        unlock = param.get('unlock', False) #bool, true to unlock, false to lock
-        if unlock:
-            payLoad = {
-                'newOwner': tenant,
-                'lock': houseId,
-                'order': 'unlock'
-            }
-        else:
-            payLoad = {
-                'newOwner': tenant,
-                'lock': houseId,
-                'order': 'lock'
-            }
+        payLoad = {
+            'newOwner': tenant,
+            'lock': houseId,
+            'order': 'lock'
+        }
         log += "=========now start lock house========\n"
         log += "renter: " + renter + "\n"
         log += "tenant: " + tenant + "\n"
@@ -122,7 +116,7 @@ def lock():
         log += "strat to add one transaction=========>\n"
         r = requests.post(
             "http://168.1.144.159:31090/api/LockOrder", data=payLoad)
-        print "lock return: " + r.text
+        print "open lock return: " + r.text
         result = json.loads(r.text)
         if result.has_key('error'):
             log += str(result['error']['message']) + "\n"
@@ -130,17 +124,12 @@ def lock():
             res['success'] = 0
             res['errorMsg'] = str(result['error']['message'])
         else:
-            if unlock:
-                log += "Unlock transaction operation success\n"
-                a.digital_write(LED_PIN, 0)
-            else:
-                log += "Lock transaction operation success\n"
-                a.digital_write(LED_PIN, 1)
+            log += "Lock transaction operation success\n"
             res['success'] = 1
             res['errorMsg'] = ""
     except Exception:
         print(traceback.format_exc())
-        print "lock Error!!!"
+        print "open lock Error!!!"
         pass
     # if the first time, start timing
 
@@ -149,14 +138,70 @@ def lock():
     return json.dumps(res)
 
 
-@app.route("/search", methods=['GET', 'POST'])
-def search_house():
-    res = {
-        "success": 1,
-        "errorMsg": "",
-        "houseNum": random.randint(1, 10)
+@app.route("/Unlock", methods=['GET', 'POST'])
+def unlock():
+    log = ""
+    res = {}
+    start_time = time.time()
+    param = request.get_json()
+    houseId = param['houseId']
+    renter = param['renter']
+    tenant = param['tenant']
+    payLoad = {
+    'newOwner': tenant,
+    'lock': houseId,
+    'order': 'unlock'
     }
+    r = requests.post("http://168.1.144.159:31090/api/LockOrder", data=payLoad)
+    logging.info('%s'%r)
+    a.digital_write(LED_PIN, 1) #set light on
+    result = json.loads(r.text)
+    if result.has_key('error'):
+        log += str(result['error']['message']) + "\n"
+        logging.info('%s'%result['error']['message'])
+        log += "!!!!!!!!!!!   Unlock transaction operation failed   !!!!!!!!!!!\n"
+        res['success'] = 0
+        res['errorMsg'] = str(result['error']['message'])
+    else:
+        log += "Unlock transaction operation success\n"
+        res['success'] = 1
+        res['errorMsg'] = ""
+
+    time.sleep(3)
+
+    payLoad = {
+    'newOwner': tenant,
+    'lock': houseId,
+    'order': 'lock'
+    }
+    r = requests.post("http://168.1.144.159:31090/api/LockOrder", data=payLoad)
+    logging.info('%s'%r)
+    a.digital_write(LED_PIN, 0) #set light off
+    result = json.loads(r.text)
+    if result.has_key('error'):
+        log += str(result['error']['message']) + "\n"
+        log += "!!!!!!!!!!!   Lock transaction operation failed   !!!!!!!!!!!\n"
+        res['success'] = 0
+        res['errorMsg'] = str(result['error']['message'])
+    else:
+        log += "Lock transaction operation success\n"
+        res['success'] = 1
+        res['errorMsg'] = ""
+
     return json.dumps(res)
 
+@app.route("/AutoReturn", methods=['GET', 'POST'])
+def auto_return():
+    """
+    Automatically return the house to renter
+    """
+    log = ""
+    res = {}
+    payLoad = {}
+
+
+
+
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     app.run(debug=True)

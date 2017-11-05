@@ -58,7 +58,7 @@ def start_rent():
 
         rentReq = requests.post(
             "http://168.1.144.159:31090/api/RentHouse", data=payload)
-        print( "Rent house return:%s " % rentReq.text)
+        logging.info( "Rent house return:%s " % rentReq.text)
         rentResult = json.loads(rentReq.text)
         if rentResult.has_key('error'):
             log += str(rentResult['error']['message']) + "\n"

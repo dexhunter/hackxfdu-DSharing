@@ -28,7 +28,7 @@ class Setup(object):
                     "lastName": "None",
                     "descriptions": "no description",
                 }
-            page = requests.post(url, headers = self.headers, data = data)
+            page = requests.post(url, headers = self.headers, data = json.dumps(data))
             print(str(i+serial)+':   '+page.text+'\n')
         print("generating renters completed")
         
@@ -42,7 +42,7 @@ class Setup(object):
                     "lastName": self.last_name_list[randint(0,len(self.last_name_list)-1)],
                     "descriptions": "no description",
             }
-            page = requests.post(url, headers = self.headers, data = data)
+            page = requests.post(url, headers = self.headers, data = json.dumps(data))
             print(str(i+serial)+':   '+page.text+'\n')
         print("generating tenants completed")
 
@@ -75,10 +75,10 @@ class Setup(object):
         print("generating orders...")
         url = self.base_url + 'Order'
         data = {"orderId": "lock", "oneOrder": "LOCK"}
-        page = requests.post(url, headers = self.headers, data = data)
+        page = requests.post(url, headers = self.headers, data = json.dumps(data))
         print(page.text + '\n')
         data = {"orderId": "unlock", "oneOrder": "UNLOCK"}
-        page = requests.post(url, headers = self.headers, data = data)
+        page = requests.post(url, headers = self.headers, data = json.dumps(data))
         print(page.text + '\n')
         print("generating orders completed")
 

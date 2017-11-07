@@ -36,6 +36,7 @@ else:
     app.logger.info("did not find the device, no iot involved")
     useuno = False
 
+useuno = False
 
 if useuno:
 # arduino control
@@ -311,4 +312,4 @@ if __name__ == "__main__":
     handler = RotatingFileHandler('test.log', maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
     app.logger.addHandler(handler)
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

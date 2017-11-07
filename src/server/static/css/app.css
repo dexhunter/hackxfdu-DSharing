@@ -57,7 +57,7 @@ p, title, h1, h2, h3, h4, h5 {
     z-index: 100;
     transition: height .25s ease;
     height: 4.5em;
-    background-color: rgba(10, 17, 40, 1);
+    background-color: rgba(10, 17, 40, 0);
 }
 
 .title-bar .title-bar-right,
@@ -67,6 +67,7 @@ p, title, h1, h2, h3, h4, h5 {
 }
 .title-bar.shrink {
     height: 3em;
+    background-color: rgba(10, 17, 40, 1);
 }
 .title-bar.shrink .title-bar-right,
 .title-bar.shrink .title-bar-left {

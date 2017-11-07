@@ -98,7 +98,7 @@
         </div>
         <div class="medium-6 large-8 cell">
             <!--<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>-->
-            <div id="container" style="height: 450px; margin: 0 auto"></div>
+            <div id="container" style="height: 450px; width: 100%;margin: 0 auto"></div>
         </div>
 
     </div>
@@ -149,8 +149,8 @@
 
   <!--<script src="static/js/app.js"></script>-->
 
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.7.1/echarts.js"></script>
-  <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+  <script type="text/javascript" src="js/echarts.min.js"></script>
+  <script type="text/javascript" src="js/world.js"></script>
   <script type="text/javascript">
 
       $(document).foundation();
@@ -236,9 +236,6 @@
       if (option && typeof option === "object") {
           myChart.setOption(option, true);
       }
-
-
-
 
       var dom_map = document.getElementById("container_map");
       var myChart_map = echarts.init(dom_map);

@@ -23,6 +23,8 @@ except ImportError:
 app = Flask(__name__, static_url_path="")
 
 conn = sls.comports()
+conn1 = False
+conn2 = False
 for port in conn:
     if 'ACM0' in port.name:
         conn2 = True
@@ -39,9 +41,11 @@ if useuno:
 # arduino control
     if conn1:
         a = Arduino(serial_port='/dev/ttyUSB0')
+        time.sleep(3)
         app.logger.info("use /dev/ttyUSB0")
     if conn2:
         a = Arduino(serial_port='/dev/ttyACM0')
+        time.sleep(3)
         app.logger.info("use /dev/ttyACM0")
 
     LED_PIN = 13
@@ -154,7 +158,7 @@ def unlock():
         res['success'] = 1
         res['errorMsg'] = ""
 
-    time.sleep(10)
+    time.sleep(3)
 
     payLoad = {
     'newOwner': tenant,

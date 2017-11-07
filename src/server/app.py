@@ -6,27 +6,48 @@ import random
 import traceback
 import time
 import logging
+from logging.handlers import RotatingFileHandler
 from flask import Flask, request
 import requests
 from datetime import datetime
-import dateutil.parser
+import serial.tools.list_ports as sls
 
+
+#TODO: remove pyduino dependency
 try:
     from pyduino import *
     useuno = True
 except ImportError:
     useuno = False
 
-
 app = Flask(__name__, static_url_path="")
+
+conn = sls.comports()
+for port in conn:
+    if 'ACM0' in port.name:
+        conn2 = True
+    elif 'USB0' in port.name:
+        conn1 = True
+if len(conn) > 0:
+    app.logger.info("Find the device")
+else:
+    app.logger.info("did not find the device, no iot involved")
+    useuno = False
+
 
 if useuno:
 # arduino control
-    a = Arduino(serial_port='/dev/ttyUSB0')
-    LED_PIN = 13
-    a.set_pin_mode(LED_PIN, '0')
-    logging.info('Arduino initialized')
+    if conn1:
+        a = Arduino(serial_port='/dev/ttyUSB0')
+        app.logger.info("use /dev/ttyUSB0")
+    if conn2:
+        a = Arduino(serial_port='/dev/ttyACM0')
+        app.logger.info("use /dev/ttyACM0")
 
+    LED_PIN = 13
+    a.set_pin_mode(LED_PIN, 'O')
+    a.digital_write(LED_PIN, 0)
+    app.logger.info('Arduino initialized')
 
 
 @app.route("/startRent", methods=['GET', 'POST'])
@@ -36,7 +57,6 @@ def start_rent():
     try:
         # generate post body
         log = ""
-        logging.info( "----")
         param = request.get_json()
         houseId = param['houseId']
         renter = param['renter']
@@ -58,7 +78,7 @@ def start_rent():
 
         rentReq = requests.post(
             "http://168.1.144.159:31090/api/RentHouse", data=payload)
-        logging.info( "Rent house return:%s " % rentReq.text)
+        app.logger.info( "Rent house return:%s " % rentReq.text)
         rentResult = json.loads(rentReq.text)
         if rentResult.has_key('error'):
             log += str(rentResult['error']['message']) + "\n"
@@ -78,7 +98,7 @@ def start_rent():
         log += "start to transform ownership=========>\n"
         log += "the house's owner change: " + renter + " --> " + tenant + "\n"
         log += "start to add one transaction=========>\n"
-        logging.info(log)
+        app.logger.info(log)
         transReq = requests.post(
             "http://168.1.144.159:31090/api/TransferOwnership", data=transFormPayLoad)
         print( "TransForm ownership return: %s" % transReq.text)
@@ -94,11 +114,11 @@ def start_rent():
             res['errorMsg'] = ""
 
         res['Log'] = log
-        logging.info(log)
+        app.logger.info(log)
 
     except Exception, e:
-        logging.info(traceback.format_exc())
-        logging.info("Rent Error!!!")
+        app.logger.info(traceback.format_exc())
+        app.logger.info("Rent Error!!!")
 
     return json.dumps(res)
 
@@ -118,14 +138,14 @@ def unlock():
     'order': 'unlock'
     }
     r = requests.post("http://168.1.144.159:31090/api/LockOrder", data=payLoad)
-    logging.info('%s'%r)
+    app.logger.info('%s'%r)
     if useuno:
-        logging.info('Arduino Opened')
+        app.logger.info('Arduino Operation Started')
         a.digital_write(LED_PIN, 1) #set light on
     result = json.loads(r.text)
     if result.has_key('error'):
         log += str(result['error']['message']) + "\n"
-        logging.info('%s'%result['error']['message'])
+        app.logger.info('%s'%result['error']['message'])
         log += "!!!!!!!!!!!   Unlock transaction operation failed   !!!!!!!!!!!\n"
         res['success'] = 0
         res['errorMsg'] = str(result['error']['message'])
@@ -134,7 +154,7 @@ def unlock():
         res['success'] = 1
         res['errorMsg'] = ""
 
-    time.sleep(3)
+    time.sleep(10)
 
     payLoad = {
     'newOwner': tenant,
@@ -142,7 +162,7 @@ def unlock():
     'order': 'lock'
     }
     r = requests.post("http://168.1.144.159:31090/api/LockOrder", data=payLoad)
-    logging.info('%s'%r)
+    app.logger.info('%s'%r)
     if useuno:
         a.digital_write(LED_PIN, 0) #set light off
     result = json.loads(r.text)
@@ -173,7 +193,7 @@ def auto_return():
         r = requests.get("http://168.1.144.159:31090/api/RentHouse")
         print(type(r))
         result = json.loads(r.content)
-        logging.info('%s'%result)
+        app.logger.info('%s'%result)
         print type(result) #list
         for dic in result:
             for data in dic.keys():
@@ -198,7 +218,7 @@ def auto_return():
 
         r = requests.post("http://168.1.144.159:31090/api/RentHouse", data=payLoad)
         result = json.loads(r.text)
-        logging.info('%s'%result)
+        app.logger.info('%s'%result)
 
         if result.has_key('error'):
             log += str(result['error']['message']) + "\n"
@@ -220,7 +240,7 @@ def return_rent():
     try:
         # generate post body
         log = ""
-        logging.info( "----")
+        app.logger.info( "----")
         param = request.get_json()
         houseId = param['houseId']
         renter = param['renter']
@@ -259,7 +279,7 @@ def return_rent():
         log += "start to transform ownership=========>\n"
         log += "the house's owner change: " + renter + " --> " + tenant + "\n"
         log += "start to add one transaction=========>\n"
-        logging.info(log)
+        app.logger.info(log)
         transReq = requests.post("http://168.1.144.159:31090/api/TransferOwnership", data=transFormPayLoad)
         print( "TransForm ownership return: %s" % transReq.text)
         transformResult = json.loads(transReq.text)
@@ -274,15 +294,17 @@ def return_rent():
             res['errorMsg'] = ""
 
         res['Log'] = log
-        logging.info(log)
+        app.logger.info(log)
 
     except Exception, e:
-        logging.info(traceback.format_exc())
-        logging.info("Return Error!!!")
+        app.logger.info(traceback.format_exc())
+        app.logger.info("Return Error!!!")
 
     return json.dumps(res)
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
+    handler = RotatingFileHandler('test.log', maxBytes=10000, backupCount=1)
+    handler.setLevel(logging.INFO)
+    app.logger.addHandler(handler)
     app.run(debug=True)
